@@ -15,13 +15,21 @@ import uuid
 from contextlib import asynccontextmanager
 from typing import Optional
 
+import os
+from pathlib import Path
+
 import httpx
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from config import AppConfig, SUPPORTED_LANGUAGES, LANG_ALIASES
+
+# ── Paths ────────────────────────────────────────────────────────────────
+BACKEND_DIR = Path(__file__).parent
+FRONTEND_DIR = BACKEND_DIR.parent / "frontend"
 
 # ── Logging ──────────────────────────────────────────────────────────────
 logging.basicConfig(
@@ -70,6 +78,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# ── Serve Frontend Static Files ──────────────────────────────────────────
+if FRONTEND_DIR.exists():
+    app.mount("/static", StaticFiles(directory=str(FRONTEND_DIR)), name="frontend")
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -269,8 +281,11 @@ async def voice_to_voice_pipeline(
 
 @app.get("/", response_class=HTMLResponse)
 async def root():
-    """Health check + landing page."""
-    return """
+    """Serve the frontend demo UI."""
+    index_path = FRONTEND_DIR / "index.html"
+    if index_path.exists():
+        return FileResponse(str(index_path))
+    return HTMLResponse("""
     <html>
     <head><title>BhashaBridge AI</title></head>
     <body style="font-family:system-ui;max-width:720px;margin:40px auto;padding:0 20px">
@@ -285,7 +300,7 @@ async def root():
         </ul>
     </body>
     </html>
-    """
+    """)
 
 
 @app.get("/health")

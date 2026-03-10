@@ -155,19 +155,22 @@ Total latency per chunk: ~650ms (sub-second real-time translation)
 
 ```
 Bashabridge/
-├── main.py                 # FastAPI server — WebSocket + REST endpoints
-├── config.py               # Centralized configuration & language definitions
-├── frontend_logic.js       # Browser audio streaming client (vanilla JS)
-├── demo.html               # Self-contained interactive demo (no backend needed)
-├── requirements.txt        # Python dependencies
-├── Dockerfile              # Production container
-├── .env.example            # Environment variable template
-├── .gitignore              # Git ignore patterns
-├── assets/                 # Screenshots & media for documentation
+├── backend/                    # Python server
+│   ├── main.py                 # FastAPI — WebSocket + REST + serves frontend
+│   ├── config.py               # Configuration & language definitions
+│   ├── requirements.txt        # Python dependencies
+│   ├── .env                    # API keys (git-ignored)
+│   └── .env.example            # Environment variable template
+├── frontend/                   # Browser client
+│   ├── index.html              # Interactive demo UI (works standalone too)
+│   └── app.js                  # Audio streaming client (vanilla JS)
+├── assets/                     # Documentation media
 │   ├── demo-desktop-home.png
 │   ├── demo-desktop-conversation.png
 │   └── demo-mobile.png
-└── README.md               # This file
+├── Dockerfile                  # Production container
+├── .gitignore
+└── README.md
 ```
 
 ---
