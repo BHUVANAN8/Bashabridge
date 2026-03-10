@@ -32,7 +32,50 @@ Unlike generic translation tools built on Western LLMs, BhashaBridge uses Sarvam
 
 ---
 
-## 🏗️ Architecture
+## � Demo Walkthrough
+
+BhashaBridge AI ships with a **self-contained demo** (`demo.html`) — no backend or API key required. Just open it in a browser to experience the full translation flow.
+
+### Desktop — Home Screen
+
+<p align="center">
+  <img src="assets/demo-desktop-home.png" alt="BhashaBridge AI — Desktop home screen" width="800">
+</p>
+
+> Select source and target languages, then **hold the mic button** (or press **Spacebar**) to start a translation.
+
+### Desktop — Live Translation (Tamil → Hindi)
+
+<p align="center">
+  <img src="assets/demo-desktop-conversation.png" alt="BhashaBridge AI — Desktop conversation with Tamil to Hindi translation and latency metrics" width="800">
+</p>
+
+> The pipeline processes **STT → Translate → TTS** in ~622ms total. Latency metrics are displayed in real time. The translated text is spoken aloud using the browser's SpeechSynthesis API.
+
+### Mobile — Responsive View
+
+<p align="center">
+  <img src="assets/demo-mobile.png" alt="BhashaBridge AI — Mobile responsive view" width="360">
+</p>
+
+> Fully responsive layout adapts to any screen size — phones, tablets, and desktops.
+
+### Try It Yourself
+
+```bash
+# Just open in browser — no server needed:
+open demo.html
+
+# Or serve locally:
+python -m http.server 3000
+# Visit http://localhost:3000/demo.html
+```
+
+**Demo features:** Hold-to-talk with waveform animation · Pipeline step visualization · Realistic latency metrics · Auto-plays translated audio · 7+ language pairs with code-switching · Demo/Live mode toggle · Spacebar shortcut
+
+---
+
+## �🏗️ Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -115,10 +158,15 @@ Bashabridge/
 ├── main.py                 # FastAPI server — WebSocket + REST endpoints
 ├── config.py               # Centralized configuration & language definitions
 ├── frontend_logic.js       # Browser audio streaming client (vanilla JS)
+├── demo.html               # Self-contained interactive demo (no backend needed)
 ├── requirements.txt        # Python dependencies
 ├── Dockerfile              # Production container
 ├── .env.example            # Environment variable template
 ├── .gitignore              # Git ignore patterns
+├── assets/                 # Screenshots & media for documentation
+│   ├── demo-desktop-home.png
+│   ├── demo-desktop-conversation.png
+│   └── demo-mobile.png
 └── README.md               # This file
 ```
 
